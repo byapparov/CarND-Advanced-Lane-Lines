@@ -13,6 +13,12 @@ In this project I have build a pipeline for image/video processing that does the
  * Finds curvature of the road 
  * Applies visualisation of results on the original image
  
+ 
+Navigating this repository:
+* README file contains writeup for this project.
+* lane_lines_research.ipynb is a Jupyter Notebook with research that has been done for this project.
+* `Video Processing Pipeline.ipynb` file contains code that was used to generate video output for this project.
+* `src` folder contains code that was organised into classes and functions to streamline pipeline.
 
 ### 1. Camera Calibration
 
