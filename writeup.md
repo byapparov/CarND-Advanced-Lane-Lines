@@ -4,27 +4,6 @@ Author: Bulat Yapparov
 
 **Advanced Lane Finding Project**
 
-The goals / steps of this project are the following:
-
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
-
-[//]: # (Image References)
-
-[image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
-
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
 ### Introduction 
@@ -119,28 +98,70 @@ inside the class with the option to pass them as parameters at class initiation.
 
 
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Road curvature radius
 
-I did this in lines # through # in my code in `my_other_file.py`
+Curvature is calculated in `src/curvature.py` file using estimated coefficients to convert from pixels to meters. 
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+Based on test images and assuming 3.7m as road width:
+ - for X = 3.7/1000 m/px
+ - for Y = 30/720 m/px 
+ 
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+
 
 ---
 
-### Pipeline (video)
+### Pipeline 
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+#### 1. Image example 
 
-Here's a [link to my video result](./project_video.mp4)
+Pipeline function has been build in `src/pipeline.py` file. 
+
+![Test image example output](writeup_images/test5_output.jpg)
+
+Example of using the code:
+
+```python
+import cv2
+import matplotlib
+import matplotlib.pyplot as plt
+from src.pipeline import create_image_processor
+process_image = create_image_processor()
+
+img = cv2.imread('test_images/test5.jpg') 
+output = process_image(img)
+plt.imshow(cv2.cvtColor(output, cv2.COLOR_BGR2RGB))
+
+```
+
+`create_image_processor` is a factory function (closure) that creates a function with attached camera calibration 
+object.  This allows the pipeline to do calibration only once for the entire video. 
+
+#### 2. Final output
+
+Here's a [link to my video result](./project_video_output.mp4)
 
 ---
 
 ### Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### Limitations of the current approach 
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Firstly, pipeline is designed to identify road lines for the car that is positioned close to the middle of the lane and 
+directed along the lane. Though this probably covers over 95% of the driving situations on the highway, it is not 
+enough for situations where car changes lanes. 
+ 
+To address this, further implementation would need to understand direction of the car as well as it is position, 
+to enhance window method. 
+
+Secondly, in the project video car was moving in the empty lane. This is uncommon on some roads near or within larger 
+cities. Other cars can be within the lane, or crossing the lane ahead. 
+
+This means we will need a method for car detection to remove them from the image for line detection. 
+
+Lastly, as with the previous project video is taken in very good weather conditions with good day light. 
+ 
+To address this, car positioning can be enhanced through sensors or GPS. It will also going to be required for the cars
+to `talk` to each other to share details about each other's speed and position. This would allow cars in congested traffic to 
+understand their surroundings much better.

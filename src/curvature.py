@@ -4,7 +4,7 @@ import numpy as np
 def estimate_lane_curve_radius_m(lane_ids, height):
 
     ym_per_pix: float = 30 / 720  # meters per pixel in y dimension
-    xm_per_pix: float = 3.7 / 700  # meters per pixel in x dimension
+    xm_per_pix: float = 3.7 / 1000  # meters per pixel in x dimension
 
     x, y = zip(*lane_ids)
 
