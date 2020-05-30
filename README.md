@@ -66,6 +66,8 @@ Red Sobel - x|![Red Sobel - x](writeup_images/binary_mask_r_gradient_x.jpg)
 Red threshold|![Red Sobel - x](writeup_images/binary_mask_r_threshold.jpg)
 Combined Binary Output|![Binary Output](writeup_images/binary_output.jpg)
 
+Code for binary filtering is in the `src/lib.py` and `src/binary_lane_filter.py` files.
+
 
 #### 3. Warping image to Bird Eye View
 
@@ -105,6 +107,10 @@ For pixels within the window I have calculated weighted average of pixel frequen
 window. 
 
 Position of the window is only changing if threshold on the maximum frequency is met (smoothed frequency). 
+
+Here is an example of pixels identified in both lanes:
+
+![Pixels identified for both lanes](writeup_images/line_pixels_highlighed.jpg)
 
 
 #### 5. Road curvature radius
