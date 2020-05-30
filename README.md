@@ -36,7 +36,7 @@ Original|Undistorted
 
 ### Pipeline (single images)
 
-#### 2. Undistorted Road Images
+#### 1. Undistorted Road Images
 
 Parameters from the previous step can now be applied to the road images to correct for 
 lens distortion:
@@ -117,6 +117,12 @@ Curvature is calculated in `src/curvature.py` file using estimated coefficients 
 Based on test images and assuming 3.7m as road width, coefficients are:
  - for X = 3.7/1000 m/px
  - for Y = 30/720 m/px 
+ 
+Here is an example of the fitted polynomial:
+
+Original image|Warped imaged with polynomial line
+--------------|----------------------
+![Original Image](test_images/test1.jpg)|![Fitted Line](writeup_images/fitted_poly_lines.png)
 
 ### Pipeline 
 
